@@ -2,6 +2,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./lib/AuthContext.jsx";
 import Layout from "./components/Layout.jsx";
 import Login from "./pages/Login.jsx";
+import Landing from "./pages/Landing.jsx";
 import AdminUsers from "./pages/AdminUsers.jsx";
 import AdminUserDetail from "./pages/AdminUserDetail.jsx";
 import AdminCorrections from "./pages/AdminCorrections.jsx";
@@ -28,18 +29,11 @@ function Protected({ children, role }) {
   return children;
 }
 
-function Home() {
-  const { user, loading } = useAuth();
-  if (loading) return <Splash />;
-  if (!user) return <Navigate to="/connexion" replace />;
-  return <Navigate to={user.role === "admin" ? "/utilisateurs" : "/tests"} replace />;
-}
-
 export default function App() {
   return (
     <Routes>
       <Route path="/connexion" element={<Login />} />
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Landing />} />
 
       <Route path="/utilisateurs" element={<Protected role="admin"><Layout><AdminUsers /></Layout></Protected>} />
       <Route path="/utilisateurs/:id" element={<Protected role="admin"><Layout><AdminUserDetail /></Layout></Protected>} />
